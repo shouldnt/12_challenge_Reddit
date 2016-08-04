@@ -4,16 +4,15 @@
 			<div class="modal-header">
 				<h3>Edit</h3>
 			</div>
-			<form action="/links/{link}" method="post">
-					{{method_field("patch")}}
-					{{csrf_field()}}	
+			<form >	
 				<div class="modal-body">
+					<div class="col-sm-12 form-group" id="notification"></div>
 					<div class="row form-group">
 						<div class="col-md-2">
 							<label for="">Title:</label>
 						</div>
 						<di class="col-md-10">
-							<input class="form-control" type="text" value="{{$link->title}}">
+							<input id="m-title" class="form-control" type="text" value="">
 						</di>
 					</div>
 					<div class="row form-group">
@@ -21,12 +20,12 @@
 							<label for="">Link:</label>
 						</div>
 						<div class="col-md-10">
-							<input class="form-control" type="text" value="{{$link->link}}">
+							<input id="m-link" class="form-control" type="text" value="">
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary">Save changes</button>
+					<button id = "m-u-link" class="btn btn-primary" type="submit">Save changes</button>
 					<button class="btn btn-danger" data-dismiss="modal" type="submit">Close</button>
 				</div>				
 			</form>

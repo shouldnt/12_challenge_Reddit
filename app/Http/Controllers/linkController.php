@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Link;
+use Response;
 
 
 class linkController extends Controller
@@ -17,7 +18,7 @@ class linkController extends Controller
 
     public function index(Request $request)
     {
-    	$links = $request->user()->links()->get();
+    	$links = $request->user()->links()->orderBy('created_at', 'des')->get();
 
     	return view('links.index', compact('links'));
     }
@@ -25,7 +26,13 @@ class linkController extends Controller
     public function show(Request $request, Link $link)
     {
         $this->authorize('edit', $link);
+        if($request->ajax())
+        {
+            return Response::json($link);
+        }
         return view('links.show', compact("link"));
+        
+        //return view('links.show', compact("link"));
     }
 
     public function edit(Request $request, Link $link)
@@ -35,6 +42,13 @@ class linkController extends Controller
                 'link' => 'required'            
             ]);        
         $this->authorize('edit', $link);
+        if($request->ajax())
+        {
+            $link->title = $request->title;
+            $link->link = $request->link;
+            $link->save();
+            return Response::json($link);
+        }
         $link->title = $request->title;
         $link->link = $request->link;
         $link->save();
@@ -62,6 +76,6 @@ class linkController extends Controller
 
         $link->delete();
 
-        return redirect('/links');
+        return Response::json(["message" => "success"]);
     }
 }
